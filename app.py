@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, jsonify, request
+from flask import Flask, json, send_from_directory, jsonify, request
 from flask_cors import CORS
 import os
 from supabase import create_client, Client
@@ -22,4 +22,14 @@ def newQuestion():
     data = supabase.table('question').select('*').execute()['data']
     data = [i for i in data if i['id'] not in oldQ]
     newQ = random.sample(data, numQ)
-    return {"newQ" : newQ}
+    data = jsonify({'newQ': newQ})
+    return data
+
+@app.route("/updateTable", methods=['POST'])
+def updateTable():
+    payload = request.json.get('payload')
+    data = supabase.table('question').insert(payload).execute()
+    if len(data.get("data", [])) > 0:
+        return 'success', 200
+    else:
+        return 'database error', 500
