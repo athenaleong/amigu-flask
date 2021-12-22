@@ -1,6 +1,6 @@
 from flask import Flask, json, send_from_directory, jsonify, request
 from flask_cors import CORS
-from flask_caching import Cache
+# from flask_caching import Cache
 import os
 from supabase import create_client, Client
 from dotenv import load_dotenv
