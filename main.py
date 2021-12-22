@@ -28,8 +28,16 @@ def newQuestion():
 @app.route("/updateTable", methods=['POST'])
 def updateTable():
     payload = request.json.get('payload')
+
+    #Implemeted try-except since delete function yield unknown error
+    try:
+        result = supabase.table('question').delete().execute()
+    except Exception as e:
+        pass
+
     data = supabase.table('question').insert(payload).execute()
     if len(data.get("data", [])) > 0:
         return 'success', 200
     else:
         return 'database error', 500
+    return 'success', 200
