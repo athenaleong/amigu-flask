@@ -50,9 +50,6 @@ def allQuestions():
 
 
 
-    return 'success', 200
-
-
 @app.route("/updateTable", methods=['POST'])
 def updateTable():
     payload = request.json.get('payload')
