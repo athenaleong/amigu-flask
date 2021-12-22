@@ -1,10 +1,10 @@
 from flask import Flask, json, send_from_directory, jsonify, request
 from flask_cors import CORS
-# from flask_caching import Cache
 import os
 from supabase import create_client, Client
 from dotenv import load_dotenv
 import random 
+from flask_caching import Cache
 
 
 load_dotenv()
@@ -16,8 +16,8 @@ config = {
 }
 app = Flask(__name__)
 CORS(app)
-# app.config.from_mapping(config)
-# cache = Cache(app)
+app.config.from_mapping(config)
+cache = Cache(app)
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_KEY")
 supabase: Client = create_client(url, key)
@@ -35,9 +35,9 @@ def newQuestions():
     data = jsonify({'newQ': newQ})
     return data
 
-@app.route("/allQuestions", methods=["GET"])
-# @cache.cached(timeout=3600)
 #PROGRAMMER NOTE: select from supabase --> create json file --> set up cache --> check eveyrthing in page works --> move on to pet
+@app.route("/allQuestions", methods=["GET"])
+@cache.cached(timeout=360)
 def allQuestions():
     data = supabase.table('category').select('name').execute()['data']
     category = [d['name'] for d in data]
