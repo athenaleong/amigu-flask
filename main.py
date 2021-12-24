@@ -48,8 +48,6 @@ def allQuestions():
     data = jsonify({'payload': payload})
     return data
 
-
-
 @app.route("/updateTable", methods=['POST'])
 def updateTable():
     payload = request.json.get('payload')
@@ -66,4 +64,11 @@ def updateTable():
     else:
         return 'database error', 500
     return 'success', 200
+
+@app.route("/allTreasures", methods=['GET'])
+def allTreasures():
+    payload = supabase.table('treasure').select('*').execute()['data']
+    data = jsonify({'payload': payload})
+    return data
+
 
