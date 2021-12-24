@@ -66,6 +66,7 @@ def updateTable():
     return 'success', 200
 
 @app.route("/allTreasures", methods=['GET'])
+@cache.cached(timeout=360)
 def allTreasures():
     payload = supabase.table('treasure').select('*').execute()['data']
     data = jsonify({'payload': payload})
