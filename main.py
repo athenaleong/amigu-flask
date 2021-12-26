@@ -59,11 +59,15 @@ def updateTable():
         pass
 
     data = supabase.table('question').insert(payload).execute()
+    print(data)
+
+    if data.get("status_code") != 201:
+        return 'database error', data.get("status_code")
+    
     if len(data.get("data", [])) > 0:
         return 'success', 200
     else:
         return 'database error', 500
-    return 'success', 200
 
 @app.route("/allTreasures", methods=['GET'])
 @cache.cached(timeout=3600)
