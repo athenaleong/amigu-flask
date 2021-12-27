@@ -51,14 +51,15 @@ def allQuestions():
 @app.route("/updateTable", methods=['POST'])
 def updateTable():
     payload = request.json.get('payload')
+    tableName = request.json.get('tableName')
 
     #Implemeted try-except since delete function yield unknown error
     try:
-        result = supabase.table('question').delete().execute()
+        result = supabase.table(tableName).delete().execute()
     except Exception as e:
         pass
 
-    data = supabase.table('question').insert(payload).execute()
+    data = supabase.table(tableName).insert(payload).execute()
     print(data)
 
     if data.get("status_code") != 201:
@@ -70,10 +71,26 @@ def updateTable():
         return 'database error', 500
 
 @app.route("/allTreasures", methods=['GET'])
-# @cache.cached(timeout=3600)
+@cache.cached(timeout=3600)
 def allTreasures():
-    payload = supabase.table('treasure').select('*').execute()['data']
+    treasureType = supabase.table('treasure').select('type').execute()['data']
+    treasureType = list(dict.fromkeys(treasureType))
+    payload = []
+    for t in treasureType:
+        data = supabase.table('treasure').select('*').eq('type', t).execute()['data']
+        entry = {'type': t, 'idToInfo': data}
+        payload.append(entry)
     data = jsonify({'payload': payload})
     return data
+
+@app.route('NewTreasures', methods=['POST'])
+def newTreasures():
+    length = request.json.get('length')
+    oldTreasure = request.json.get('oldTreasure')
+    payload = supabase.table('treasure').select('*').execute()['data']
+
+
+
+
 
 
