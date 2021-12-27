@@ -70,7 +70,7 @@ def updateTable():
         return 'database error', 500
 
 @app.route("/allTreasures", methods=['GET'])
-@cache.cached(timeout=3600)
+# @cache.cached(timeout=3600)
 def allTreasures():
     payload = supabase.table('treasure').select('*').execute()['data']
     data = jsonify({'payload': payload})
