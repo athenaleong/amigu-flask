@@ -83,11 +83,11 @@ def allTreasures():
     data = jsonify({'payload': payload})
     return data
 
-@app.route('NewTreasures', methods=['POST'])
-def newTreasures():
-    length = request.json.get('length')
-    oldTreasure = request.json.get('oldTreasure')
-    payload = supabase.table('treasure').select('*').execute()['data']
+# @app.route('NewTreasures', methods=['POST'])
+# def newTreasures():
+#     length = request.json.get('length')
+#     oldTreasure = request.json.get('oldTreasure')
+#     payload = supabase.table('treasure').select('*').execute()['data']
 
 
 
