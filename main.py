@@ -59,6 +59,7 @@ def updateTable():
     except Exception as e:
         pass
 
+    print(tableName)
     data = supabase.table(tableName).insert(payload).execute()
     print(data)
 
@@ -74,6 +75,7 @@ def updateTable():
 @cache.cached(timeout=3600)
 def allTreasures():
     treasureType = supabase.table('treasure').select('type').execute()['data']
+    treasureType = [d['type'] for d in treasureType]
     treasureType = list(dict.fromkeys(treasureType))
     payload = []
     for t in treasureType:
