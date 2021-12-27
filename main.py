@@ -72,7 +72,7 @@ def updateTable():
         return 'database error', 500
 
 @app.route("/allTreasures", methods=['GET'])
-@cache.cached(timeout=3600)
+@cache.cached(timeout=36000)
 def allTreasures():
     treasureType = supabase.table('treasure').select('type').execute()['data']
     treasureType = [d['type'] for d in treasureType]
