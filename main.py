@@ -132,8 +132,8 @@ def newTreasures():
 @app.route('/treasureDetail', methods=['GET'])
 def treasureDetails():
     id = request.args.get('id')
-    data = supabase.table('treasure').select('*').eq('id', id).execute()['data'][0]
-    return jsonify({'payload': data})
+    data = supabase.table('treasure').select('*').eq('id', id).execute()['data']
+    return jsonify({'payload': data[0]})
 
 
 
