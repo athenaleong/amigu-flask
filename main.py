@@ -66,6 +66,7 @@ def newQuestions():
 
 #PROGRAMMER NOTE: select from supabase --> create json file --> set up cache --> check eveyrthing in page works --> move on to pet
 @app.route("/allQuestions", methods=["GET"])
+@cache.cached(timeout=3600)
 def allQuestions():
     data = supabase.table('category').select('name').execute()['data']
     category = [d['name'] for d in data]
