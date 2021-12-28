@@ -72,7 +72,7 @@ def allQuestions():
     category = [d['name'] for d in data]
     payload = []
     for c in category:
-        questions = supabase.table('question').select('content', 'id', 'category', 'chat', 'frameType', 'petType').eq('category', c).execute()['data']
+        questions = supabase.table('question').select('*').eq('category', c).execute()['data']
         payload.append({'category': c, 'questions': questions})
     data = jsonify({'payload': payload})
     return data
