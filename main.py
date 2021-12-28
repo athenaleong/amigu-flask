@@ -117,7 +117,11 @@ def allTreasures():
 @app.route('/newTreasures', methods=['POST'])
 def newTreasures():
     length = int(request.json.get('length'))
-    oldTreasure = request.json.get('oldTreasure')
+    treasure = request.json.get('oldTreasure')
+    oldTreasure = []
+    for v in list(treasure.values()):
+        oldTreasure.extend(v)
+
     payload = supabase.table('treasure').select('id').execute()['data']
     payload = [i['id'] for i in payload if i['id'] not in oldTreasure]
     newTreasure = random.sample(payload, length)
