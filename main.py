@@ -116,7 +116,7 @@ def allTreasures():
 
 @app.route('/newTreasures', methods=['POST'])
 def newTreasures():
-    length = request.json.get('length')
+    length = int(request.json.get('length'))
     oldTreasure = request.json.get('oldTreasure')
     payload = supabase.table('treasure').select('id').execute()['data']
     payload = [i['id'] for i in payload if i['id'] not in oldTreasure]
