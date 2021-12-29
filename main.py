@@ -57,7 +57,7 @@ def newQuestions():
     #TODO: pull new qn --> axios on frontend --> save to local storage
     #TODO: make this algo better lol it is so inefficient rn
     numQ = request.json.get('numQ')
-    oldQ = request.json.get('oldQ')
+    oldQ = request.json.get('usedQ')
     data = supabase.table('question').select('*').execute()['data']
     data = [i for i in data if i['id'] not in oldQ]
     newQ = random.sample(data, numQ)
