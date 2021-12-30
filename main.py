@@ -54,8 +54,7 @@ supabase: Client = create_client(url, key)
 
 @app.route("/newQuestions", methods=['POST'])
 def newQuestions():
-    #TODO: pull new qn --> axios on frontend --> save to local storage
-    #TODO: make this algo better lol it is so inefficient rn
+    #NOTE: slow runtime
     numQ = request.json.get('numQ')
     oldQ = request.json.get('usedQ')
     data = supabase.table('question').select('*').execute()['data']
@@ -64,7 +63,6 @@ def newQuestions():
     data = jsonify({'newQ': newQ})
     return data
 
-#PROGRAMMER NOTE: select from supabase --> create json file --> set up cache --> check eveyrthing in page works --> move on to pet
 @app.route("/allQuestions", methods=["GET"])
 @cache.cached(timeout=3600)
 def allQuestions():
@@ -136,7 +134,20 @@ def treasureDetails():
     return jsonify({'payload': data[0]})
 
 
+@app.route('/questionIdToData', methods=['POST'])
+def questionIdToInfo():
+    id = request.json.get('id')
+    payload = []
+    for i in id:
+        print(i)
+        data = supabase.table('question').select('*').eq('id', str(i)).execute()['data']
+        if len(data):
+            payload.append(data)
 
+    return jsonify({'payload': payload})
+
+# @app.route('/allCategories', methods=['GET'])
+# @cache.cached(timeout=3600)
 
 
 
