@@ -99,7 +99,6 @@ def updateTable():
         return 'database error', 500
 
 @app.route("/allTreasures", methods=['GET'])
-@cache.cached(timeout=3600)
 def allTreasures():
     treasureType = supabase.table('treasure').select('type').execute()['data']
     treasureType = [d['type'] for d in treasureType]
@@ -135,7 +134,7 @@ def treasureDetails():
 
 
 @app.route('/questionIdToData', methods=['POST'])
-def questionIdToInfo():
+def questionIdToData():
     id = request.json.get('id')
     payload = []
     for i in id:
